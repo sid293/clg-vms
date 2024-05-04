@@ -11,6 +11,7 @@ import axios from 'axios';
 import Header from './header';
 import Autocomplete from '@mui/material/Autocomplete';
 
+const baseBackendUrl = "https://clg-vms-backend.onrender.com";
 
 const Signup = ()=>{
     const {enqueueSnackbar} = useSnackbar();
@@ -59,7 +60,7 @@ const Signup = ()=>{
             enqueueSnackbar("Password length should be greater than 8.", {variant:"error"});
             return;
         }
-        let url = "http://localhost:3001/api/v1/register";
+        let url = baseBackendUrl+"/api/v1/register";
         // let response = axios.post(url,data);
         // console.log("response is ", response);
         axios.post(url, data)

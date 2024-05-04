@@ -28,8 +28,6 @@ const Home = ()=>{
                     </Link>
                 </Grid>
             </Grid>
-            {/* <div onClick={()=>{redirect("login")}}>Login</div>
-            <div onClick={()=>{redirect("signup")}}>Signup</div> */}
         </div>
     )
 }

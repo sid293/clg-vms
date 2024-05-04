@@ -16,6 +16,7 @@ import {TextField, Button} from '@mui/material';
 // import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 // import { Input as BaseInput } from '@mui/base/Input';
 
+const baseBackendUrl = "https://clg-vms-backend.onrender.com";
 let email = localStorage.getItem("email");
 let sender = localStorage.getItem("user");
 let userType = localStorage.getItem("type");
@@ -23,7 +24,7 @@ let userType = localStorage.getItem("type");
 
 function generateQR(data){
     return new Promise((resolve,reject)=>{
-        let url = "http://localhost:3001/generate-qr";
+        let url = baseBackendUrl+"/generate-qr";
         // let ddata = {data:data};
         let queryParams = {params:{data:data}};
         axios.get(url, queryParams)
@@ -57,7 +58,7 @@ const Inbox = ({user})=>{
     // let data = {user:user.username};
     // console.log("sending inbox data is ", data);
     useEffect(()=>{
-        let url = "http://localhost:3001/api/v1/users/inbox";
+        let url = baseBackendUrl+"/api/v1/users/inbox";
         let data = {user:sender,type:userType};
         axios.post(url,data)
             .then((response)=>{
@@ -83,7 +84,7 @@ const Inbox = ({user})=>{
     let changeRequestStatus = async(entry,changeTo)=>{   //change to changeRequestStatus
         //todo: update status to rejected
         let data = {status:changeTo,id:entry.id};
-        let url = "http://localhost:3001/api/v1/requests/update";
+        let url = baseBackendUrl+"/api/v1/requests/update";
         axios.post(url,data)
             .then((response)=>{
                 // console.log("response data for status update ", response.data);
@@ -95,7 +96,7 @@ const Inbox = ({user})=>{
             let randomString = generateRandomString(8);
             console.log("reciever is ",sender);
             let data = {sender:entry.sender, receiver:sender, qrdata:randomString, status:"Out",time:entry.time,timeout:entry.timeout};
-            let url = "http://localhost:3001/api/v1/qrs/add";
+            let url = baseBackendUrl+"/api/v1/qrs/add";
             axios.post(url, data).then((response)=>{
                 console.log("response data for qr data ", response.data);
                 if(response.data.success){
@@ -108,7 +109,7 @@ const Inbox = ({user})=>{
             })
             //todo: set meeting data in database - (employee-reciever, visitor-sender, time , reason)
             let data2 = {employee:sender,visitor:entry.sender,time:entry.time,reason:entry.reason};
-            let url2 = "http://localhost:3001/api/v1/meeting/add";
+            let url2 = baseBackendUrl+"/api/v1/meeting/add";
             axios.post(url2, data2).then((response)=>{
                 console.log("response data for meeting data ", response.data);
                 if(response.data.success){
@@ -127,7 +128,7 @@ const Inbox = ({user})=>{
 
     let showQr = async (entry)=>{
         //make post request to /qrs/get based on entry.sender and sender
-        let url = "http://localhost:3001/api/v1/qrs/getqr";
+        let url = baseBackendUrl+"/api/v1/qrs/getqr";
         let data = {sender:entry.reciever, receiver:sender};
         console.log("sender is ",entry.reciever);
         console.log("receiver is ", sender);
@@ -260,7 +261,7 @@ const MeetingForm = ()=>{
         data.timeout = timeout;
         console.log("timeout is ",timeout," time in is ",data.time);
         
-        let url = "http://localhost:3001/api/v1/meeting/form";
+        let url = baseBackendUrl+"/api/v1/meeting/form";
         //WHAT DATA AM I SENDING
         axios.post(url, data)
             .then((response)=>{
@@ -347,7 +348,7 @@ const ValidateQr = ()=>{
         };
         let switchInOut = (user)=>{
             //MAKING REQUEST TO LOCALHOST /USERS/SETSTATUS WITH USER AS BODY
-            let url = "http://localhost:3001/api/v1/users/switchstatus";
+            let url = baseBackendUrl+"/api/v1/users/switchstatus";
             let data = {user:user,qrdata:text};
             axios.post(url, data).then((response)=>{
                 if(response.data.success == true){
@@ -362,7 +363,7 @@ const ValidateQr = ()=>{
             })
         }
         let validateUserTypeUserTime = (reciever)=>{
-            let url = "http://localhost:3001/api/v1/users/getuser";
+            let url = baseBackendUrl+"/api/v1/users/getuser";
             let data = {user:reciever};
             axios.post(url,data).then((response)=>{
                 // console.log("response data for getuser ", response.data);
@@ -439,7 +440,7 @@ const ValidateQr = ()=>{
         //todo: turn text into qrdata and check if user is present in db
         let data = {text:text};
         // if(text.length == 0){return;}
-        let url = "http://localhost:3001/api/v1/qrs/validate";
+        let url = baseBackendUrl+"/api/v1/qrs/validate";
         console.log("validating user with data ",data.text);
         axios.post(url,data)
             .then((response)=>{
@@ -544,7 +545,7 @@ const CheckedInUsers = ()=>{
     // let rows2;
     const [rows2, setRows2] = useState([]);
     useEffect(()=>{
-        let url = "http://localhost:3001/api/v1/qrs/checkedin";
+        let url = baseBackendUrl+"/api/v1/qrs/checkedin";
         axios.get(url).then((response)=>{
             console.log("checkedin users ", response.data);
             // rows2 = response.data.result;
@@ -640,7 +641,7 @@ const ManageEmployees = ()=>{
     let rows4 = [];
     useEffect(()=>{
         console.log("fetching employees data");
-        let url = "http://localhost:3001/api/v1/users/employees";
+        let url = baseBackendUrl+"/api/v1/users/employees";
         axios.get(url).then((response)=>{
             console.log("employees ", response.data.result);
             for(let i in response.data.result){
@@ -700,7 +701,7 @@ const ManageEmployees = ()=>{
     ];
 
     let removeEmployee = (entry)=>{
-        let url = "http://localhost:3001/api/v1/users/removeuser";
+        let url = baseBackendUrl+"/api/v1/users/removeuser";
         console.log("username in entry is ",entry.username);
         let data = {user:entry.username};
         axios.post(url,data).then((response)=>{
@@ -776,7 +777,7 @@ const AddEmployeeForm = ({setAddEmployee})=>{
         let QrEndTime = new Date();
         QrEndTime.setMonth(QrEndTime.getMonth() + 3);
         let data = {sender:formData.username, receiver:"Admin", qrdata:randomString, status:"Out",time:new Date(),timeout:QrEndTime};
-        let url = "http://localhost:3001/api/v1/qrs/add";
+        let url = baseBackendUrl+"/api/v1/qrs/add";
         axios.post(url, data).then((response)=>{
             console.log("response data for qr data ", response.data);
             if(response.data.success){
@@ -809,7 +810,7 @@ const AddEmployeeForm = ({setAddEmployee})=>{
             enqueueSnackbar("Password length should be greater than 8.", {variant:"error"});
             return;
         }
-        let url = "http://localhost:3001/api/v1/register";
+        let url = baseBackendUrl+"/api/v1/register";
         axios.post(url, data)
         .then((response)=>{
             if(response.status === 201){
@@ -868,7 +869,7 @@ const EmployeeQr = ()=>{
     let [DisplayQrData, setDisplayQrData] = useState("");
     let showQr = async (EmployeeName)=>{
         //make post request to /qrs/get based on entry.sender and sender
-        let url = "http://localhost:3001/api/v1/qrs/getqr";
+        let url = baseBackendUrl+"/api/v1/qrs/getqr";
         let data = {sender:"Admin", receiver:EmployeeName};
         // console.log("sender is ",entry.reciever);
         // console.log("receiver is ", sender);
