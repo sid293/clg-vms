@@ -14,7 +14,7 @@ const Home = ()=>{
     return(
         <div>
             <h1>
-                Home
+               Welcome 
             </h1>
             <Grid container columnSpacing={10} sx={{justifyContent:'center',alignItems:'center'}}>
                 <Grid item>

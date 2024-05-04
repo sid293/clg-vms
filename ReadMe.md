@@ -1,0 +1,1 @@
+This project is a single page react application used for setting meetings between visitors and employee of a company.
