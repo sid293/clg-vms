@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Login from './components/login'
+import Home from './components/Home'
 import Signup from './components/signup'
 import Employee from './components/Employee'
 import Visitor from './components/Visitor'
@@ -43,6 +44,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login handleSetUser={handleSetUser} user={user}/>}/>
+       </Routes>
+        <Routes>
+          <Route path="/" element={<Home/>}/>
        </Routes>
         <Routes>
           <Route path="/signup" element={<Signup/>}/>
