@@ -12,6 +12,8 @@ import Button from '@mui/material/Button';
 import Header from './header';
 import axios from 'axios';
 
+const baseBackendUrl = "https://clg-vms-backend.onrender.com";
+
 const Login = ({user,handleSetUser})=>{
     const {enqueueSnackbar} = useSnackbar();
     let navigate = useNavigate();
@@ -24,7 +26,7 @@ const Login = ({user,handleSetUser})=>{
     let loginData = (data)=>{
         // console.log(data);
         // console.log("data is ",data);
-        let url = "http://localhost:3001/api/v1/login";
+        let url = baseBackendUrl+"/api/v1/login";
         axios.post(url,data).then((response)=>{
             if(response.data.success){
                 // console.log("login success snackbar");
