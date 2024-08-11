@@ -119,7 +119,7 @@ router.get("/data",(req,res)=>{
 
 
     //removing data from database
-    // let sql2 = "DELETE FROM requests WHERE 1;";
+    // let sql2 = "DELETE FROM requests WHERE id=58;";
     // db.run(sql2);
 
     // let sql2 = "DROP TABLE IF EXISTS meetings;";
@@ -130,7 +130,7 @@ router.get("/data",(req,res)=>{
     // let sql3 = "INSERT INTO users (username, password, email, type) VALUES (?, ?, ?, ?)";
     // db.run(sql3, ["admin", "admin", "admin@gmail.com", "Admin"]);
 
-    let sql = "SELECT * FROM users";
+    let sql = "SELECT * FROM requests";
     db.all(sql,(err,rows)=>{
         if(err){
             console.error(err);

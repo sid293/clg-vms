@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { TextField } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import {useNavigate} from 'react-router-dom';
-import CardActions from '@mui/material/CardActions';
+// import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Header from './header';
 import axios from 'axios';
@@ -14,9 +14,9 @@ import axios from 'axios';
 
 // const baseBackendUrl = "https://clg-vms-backend.onrender.com";
 const baseBackendUrl = import.meta.env.VITE_backend_url;
-const backendUrl = process.env.VITE_backend_url;
-console.log("backend url ",baseBackendUrl);
-console.log("backend url ",backendUrl);
+// const backendUrl = process.env.VITE_backend_url;
+// console.log("backend url ",baseBackendUrl);
+// console.log("backend url ",backendUrl);
 
 
 const Login = ({user,handleSetUser})=>{

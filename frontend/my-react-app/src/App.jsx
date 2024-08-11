@@ -14,7 +14,7 @@ function App() {
   let [user, setUser] = useState(null);
   let handleSetUser = (user)=>{
     setUser(user);
-    console.log("user state is set to ",user);
+    // console.log("user state is set to ",user);
   }
 
   return (

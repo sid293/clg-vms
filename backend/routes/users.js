@@ -26,16 +26,17 @@ router.post('/inbox', (req, res) => {
     if(userType == "Visitor"){
         sql = "SELECT * FROM requests WHERE sender = ?";
         console.log("inbox of visitor ");
+        // user = user.username;
     }else if(userType == "Employee"){
         sql = "SELECT * FROM requests WHERE reciever = ?";
         console.log("inbox of employee ");
     }
     // let sql = "SELECT * FROM requests WHERE reciever = ?";
+    console.log("user is ",user);
     db.all(sql, [user], (err, result) => {
         if (err) throw err;
-        // console.log("inbox response ",result);
         if(result){
-            // console.log("inbox response ", result);
+            console.log("inbox response ", result);
             res.status(200).json({ success: true, data: result });
         }else{
             res.status(200).json({ success: false, data: result });

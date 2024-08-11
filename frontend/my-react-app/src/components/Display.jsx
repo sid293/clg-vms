@@ -56,9 +56,9 @@ function generateRandomString(length) {
 const Inbox = ({user})=>{
     let [qrImageData, setQrdata] = useState("");
     userType = localStorage.getItem("type");
-    sender = user;
+    // sender = user;
     if(!sender){
-        sender = localStorage.getItem("user");
+        sender = localStorage.getItem("user").username;
     }
     // console.log("passed user is ",user);
     // console.log("localstorage user is ",sender);
@@ -68,10 +68,10 @@ const Inbox = ({user})=>{
     useEffect(()=>{
         let url = baseBackendUrl+"/api/v1/users/inbox";
         let data = {user:sender,type:userType};
-        console.log("asking with data ",data);
+        // console.log("asking with data ",data);
         axios.post(url,data)
             .then((response)=>{
-                console.log("response ",response);
+                // console.log("response ",response);
                 setData(response.data.data);
                 setUpdate(prev => !prev);
             }).catch((err)=>{
