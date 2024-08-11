@@ -8,8 +8,6 @@ import './header.css';
 
 // const history = useHistory();
 let navigate = (to)=>{
-    // console.log(to);
-    // const naviagte = useNavigate();
     if(to == "Sign Up"){
         // history.push("/signup");
         console.log("navigate to signup");
@@ -46,7 +44,7 @@ const Header = ({header,endButton})=>{
             <Box sx={{boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'}} display="flex" justifyContent="space-between">
                 <Box sx={{boxShadow:"0"}} className="header">
                     <Typography variant="h3" color="inherit" component="div">
-                        {header}: {localStorage.getItem("user")}
+                        <b>{header}:</b> {localStorage.getItem("user")}
                     </Typography>
                 </Box>
                 <Box sx={{display:'flex',alignItems:'center'}}> 

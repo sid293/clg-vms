@@ -1,10 +1,8 @@
 import React,{useState,useEffect} from 'react';
-import TextField from '@mui/material/TextField';
-// import Autocomplete from '@mui/material/Autocomplete';
-// import {useState, useEffect} from 'react';
 import Card from '@mui/material/Card';
 import {useSnackbar} from 'notistack';
 import Typography from '@mui/material/Typography';
+import { TextField } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import {useNavigate} from 'react-router-dom';
 import CardActions from '@mui/material/CardActions';
@@ -12,7 +10,12 @@ import Button from '@mui/material/Button';
 import Header from './header';
 import axios from 'axios';
 
-const baseBackendUrl = "https://clg-vms-backend.onrender.com";
+// dotenv.config();
+
+// const baseBackendUrl = "https://clg-vms-backend.onrender.com";
+const baseBackendUrl = import.meta.env.VITE_backend_url;
+console.log("backend url ",baseBackendUrl);
+
 
 const Login = ({user,handleSetUser})=>{
     const {enqueueSnackbar} = useSnackbar();

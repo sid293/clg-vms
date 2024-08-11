@@ -1,7 +1,9 @@
-import * as url from 'url';
+// import * as url from 'url';
 import React from 'react';
 import axios from 'axios';
 import { useState } from 'react';
+// import EnhancedTable from 'EnhancedTable.jsx';
+// import EnhancedTable from './Table';
 import { useEffect } from 'react';
 import {Box,Card } from '@mui/material';
 import {Typography} from '@mui/material';
@@ -10,13 +12,15 @@ import {QrReader} from 'react-qr-reader';
 // import { useNavigate } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import {TextField, Button} from '@mui/material';
+import EnhancedTable from './Table';
 // import QRCode from 'qrcode.js';
 // import { resolve } from 'path';
 // import {TimePicker, LocalizationProvider} from '@mui/x-date-pickers';
 // import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 // import { Input as BaseInput } from '@mui/base/Input';
 
-const baseBackendUrl = "https://clg-vms-backend.onrender.com";
+// const baseBackendUrl = "https://clg-vms-backend.onrender.com";
+const baseBackendUrl = import.meta.env.VITE_backend_url;
 let email = localStorage.getItem("email");
 let sender = localStorage.getItem("user");
 let userType = localStorage.getItem("type");
@@ -51,35 +55,30 @@ function generateRandomString(length) {
 
 const Inbox = ({user})=>{
     let [qrImageData, setQrdata] = useState("");
-    // console.log("user name is ",user);
+    userType = localStorage.getItem("type");
+    sender = user;
+    if(!sender){
+        sender = localStorage.getItem("user");
+    }
+    // console.log("passed user is ",user);
+    // console.log("localstorage user is ",sender);
     let [arrayData, setData] = useState([]);
     let [update, setUpdate] = useState(false);
     let [DisplayQrData, setDisplayQrData] = useState("");
-    // let data = {user:user.username};
-    // console.log("sending inbox data is ", data);
     useEffect(()=>{
         let url = baseBackendUrl+"/api/v1/users/inbox";
         let data = {user:sender,type:userType};
+        console.log("asking with data ",data);
         axios.post(url,data)
             .then((response)=>{
-                // console.log("response data for inbox ",response.data);
-                // return response;
+                console.log("response ",response);
                 setData(response.data.data);
-                // console.log("array data is ", response.data);
+                setUpdate(prev => !prev);
             }).catch((err)=>{
                 console.error(err);
             })
-    },[update])
+    },[])
 
-    // function generateRandomString(length) {
-    //     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    //     let result = '';
-    //     const charactersLength = characters.length;
-    //     for (let i = 0; i < length; i++) {
-    //       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    //     }
-    //     return result;
-    // }      
 
     let changeRequestStatus = async(entry,changeTo)=>{   //change to changeRequestStatus
         //todo: update status to rejected
@@ -87,7 +86,6 @@ const Inbox = ({user})=>{
         let url = baseBackendUrl+"/api/v1/requests/update";
         axios.post(url,data)
             .then((response)=>{
-                // console.log("response data for status update ", response.data);
                 setUpdate(prev => !prev);
             }).catch((err)=>{
                 console.error(err);
@@ -127,19 +125,12 @@ const Inbox = ({user})=>{
     }
 
     let showQr = async (entry)=>{
-        //make post request to /qrs/get based on entry.sender and sender
         let url = baseBackendUrl+"/api/v1/qrs/getqr";
         let data = {sender:entry.reciever, receiver:sender};
-        console.log("sender is ",entry.reciever);
-        console.log("receiver is ", sender);
+        console.log("sender is ",data);
+        console.log("url is ", url);
         axios.post(url, data).then((response)=>{
-            // console.log("response data for get qr data ", response.data);
             if(response.data.success){
-                // console.log("qr found");
-                // console.log("qr data is ", response.data.result);
-                // console.log("qr data is ", response.data.result[0].data);
-                // let qrImgData = generateQR(response.data.result[0].data);
-                // setQrdata(response.data.data);
                 setQrImgData(response.data.result[0].data);
             }else{
                 console.log("qr not found");
@@ -149,177 +140,160 @@ const Inbox = ({user})=>{
         })
         let setQrImgData = async (text)=>{
             let qrImgData = await generateQR(text);
-            // console.log("hellow qrImgData is ", qrImgData);
             setDisplayQrData(qrImgData);
         }
     }
     
-    return(
+    return (
         <div>
-            <h2>Inbox</h2>
-            <div> 
+            {/* <h2>Inbox</h2> */}
+            {/* <div>
                 {
-                    DisplayQrData == ""?
-                <table border={"2px"} aria-label="custom pagination table">
-                    <thead>
-                        {userType == "Visitor"?<th>To</th>:<th>Sender</th>}
-                        {userType == "Employee"?<th>Email</th>:null}
-                        <th>Reason</th>
-                        <th>Time</th>
-                        <th>Status/ Response</th>
-                        {userType == "Visitor"?<th>QRs</th>:null}
-                        {/* <th>Respond</th> */}
-                    </thead>
-                    <tbody>
-                        {/* <tr>
-                            <td>sample</td>
-                            <td>sample</td>
-                            <td>sample</td>
-                            <td>sample</td>
-                        </tr> */}
-                        {arrayData.length > 0 ? 
-                        (arrayData.map((entry,index)=>{
-                            return(
-                                <tr key={index}>
-                                    {/* <td>{entry.sender}</td> */}
-                                    {userType == "Visitor"?<td>{entry.reciever}</td>:<td>{entry.sender}</td>}
-                                    {userType == "Employee"?<td>{entry.email}</td>:null}
-                                    
-                                    <td>{entry.reason}</td>
-                                    <td>{entry.time}</td>
-                                    {/* <td>{entry.status}</td> */}
-                                    {userType == "Employee"?
-                                    <td>{entry.status == "pending"? <div><Button onClick={()=>{changeRequestStatus(entry,"accepted")}} size="medium" sx={{backgroundColor:'green'}} variant="contained">A</Button><Button onClick={()=>{changeRequestStatus(entry,"rejected")}} size="medium" sx={{backgroundColor:'red'}} variant="contained">R</Button></div>:entry.status}</td>
-                                    :
-                                    <td>{entry.status}</td>
-                                    }
-                                    {/* <td><Button size="medium" sx={{backgroundColor:'green'}} variant="contained">A</Button><Button onClick={rejectRequest} size="medium" sx={{backgroundColor:'red'}} variant="contained">R</Button></td> */}
-                                    {userType == "Visitor"?<td>{entry.status=="accepted"?<Button onClick={()=>{showQr(entry)}}>show</Button>:null}</td>:null}
-                                </tr>
-                            )
-                            // console.log("entry is ", entry); 
-                        })):(
-                            <tr>
-                                <td colSpan="5">No data found</td>
-                            </tr>
-                        )
-                        }
+                    DisplayQrData == "" ?
+                        <table border={"2px"} aria-label="custom pagination table">
+                            <thead>
+                                {userType == "Visitor" ? <th>To</th> : <th>Sender</th>}
+                                {userType == "Employee" ? <th>Email</th> : null}
+                                <th>Reason</th>
+                                <th>Time</th>
+                                <th>Status/ Response</th>
+                                {userType == "Visitor" ? <th>QRs</th> : null}
+                            </thead>
+                            <tbody>
+                                {arrayData.length > 0 ?
+                                    (arrayData.map((entry, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                {userType == "Visitor" ? <td>{entry.reciever}</td> : <td>{entry.sender}</td>}
+                                                {userType == "Employee" ? <td>{entry.email}</td> : null}
 
-                    </tbody>
-                </table>
-                :
-                <Box sx={{height:"80vh",width:"80vw"}}>
-                    <Button onClick={()=>{setDisplayQrData("")}}>Back</Button>
-                    <img style={{height:"100%",width:"100%"}} src={DisplayQrData} alt="QRcode"/>
-                </Box>}
+                                                <td>{entry.reason}</td>
+                                                <td>{entry.time}</td>
+                                                {userType == "Employee" ?
+                                                    <td>{entry.status == "pending" ? <div><Button onClick={() => { changeRequestStatus(entry, "accepted") }} size="medium" sx={{ backgroundColor: 'green' }} variant="contained">A</Button><Button onClick={() => { changeRequestStatus(entry, "rejected") }} size="medium" sx={{ backgroundColor: 'red' }} variant="contained">R</Button></div> : entry.status}</td>
+                                                    :
+                                                    <td>{entry.status}</td>
+                                                }
+                                                {userType == "Visitor" ? <td>{entry.status == "accepted" ? <Button onClick={() => { showQr(entry) }}>show</Button> : null}</td> : null}
+                                            </tr>
+                                        )
+                                    })) : (
+                                        <tr>
+                                            <td colSpan="5">No data found</td>
+                                        </tr>
+                                    )
+                                }
+
+                            </tbody>
+                        </table>
+                        :
+                        <Box sx={{ height: "80vh", width: "80vw" }}>
+                            <Button onClick={() => { setDisplayQrData("") }}>Back</Button>
+                            <img style={{ height: "100%", width: "100%" }} src={DisplayQrData} alt="QRcode" />
+                        </Box>}
+            </div> */}
+            <div>
+                <EnhancedTable showQr={showQr} arrayData={arrayData} changeRequestStatus={changeRequestStatus} userType={userType} update={update} />
             </div>
         </div>
     )
 }
 
 const MeetingForm = ()=>{
-    let {enqueueSnackbar} = useSnackbar();
-    // let email = localStorage.getItem("email");
-    // let sender = localStorage.getItem("user");
-    // console.log("email is ", email);
-    // console.log("sender is ", sender);
-    let [data, setState] = useState({name:"",reason:"",email:email, sender:sender});
+let {enqueueSnackbar} = useSnackbar();
+let [data, setState] = useState({name:"",reason:"",email:email, sender:sender});
 
-    let setData = (e)=>{        
-        let {id, value} = e.target;
-        let submitButton = document.getElementById("sub");
-        if(id === "time" && new Date(value) < new Date()){
-            // console.log("please select time in future enqueuesnackbar");
-            enqueueSnackbar("Please select time in future.", {variant:"warning"});
+let setData = (e)=>{        
+    let {id, value} = e.target;
+    let submitButton = document.getElementById("sub");
+    if(id === "time" && new Date(value) < new Date()){
+        enqueueSnackbar("Please select time in future.", {variant:"warning"});
+        submitButton.disabled = true;
+        return;
+    }else{
+        submitButton.disabled = false;
+    }
+    if(id === "duration"){
+        if(value>8 || value<1){
+            enqueueSnackbar("Please select duration in range 1-8.", {variant:"warning"});
             submitButton.disabled = true;
             return;
-        }else{
-            // console.log("setting time ");
-            submitButton.disabled = false;
         }
-        if(id === "duration"){
-            // console.log("please select duration in range 1-8 enqueuesnackbar");
-            if(value>8 || value<1){
-                enqueueSnackbar("Please select duration in range 1-8.", {variant:"warning"});
-                submitButton.disabled = true;
-                return;
+    }else{
+        submitButton.disabled = false;
+    }
+    setState({...data, [id]:value});
+}
+
+
+let submitForm = (data)=>{
+    let timeout = new Date(data.time);
+    let timeouthours = timeout.getHours();
+    let newhours = (timeouthours + parseInt(data.duration)) % 24;
+    timeout.setHours(newhours);
+    data.timeout = timeout;
+    console.log("timeout is ",timeout," time in is ",data.time);
+    
+    let url = baseBackendUrl+"/api/v1/meeting/form";
+    //WHAT DATA AM I SENDING
+    axios.post(url, data)
+        .then((response)=>{
+            // console.log("response data for /meeting/form ", response.data);
+            // return response;
+            console.log("response is ",response);
+            if(response.data.success == true){
+                // console.log("request submitted successfully enqueuesnackbar");
+                enqueueSnackbar("Request submitted successfully.", {variant:"success"});
+            }else if(response.data.success == false && response.data.data == "user does not exist"){
+                // console.log("User not found enqueuesnackbar");
+                enqueueSnackbar("User not found.", {variant:"warning"});
+            }else{
+                // console.log("something went wrong enqueuesnackbar");
+                enqueueSnackbar("Something went wrong at backend.", {variant:"error"});
             }
-        }else{
-            submitButton.disabled = false;
-        }
-        // console.log("id is ", id, " value is ", value);
-        setState({...data, [id]:value});
-    }
+        }).catch((err)=>{
+            console.error(err);
+            enqueueSnackbar("Backend request failed.", {variant:"error"});
+        })
+}
 
 
-    let submitForm = (data)=>{
-        // console.log("form data for submission is ",data);
-        let timeout = new Date(data.time);
-        let timeouthours = timeout.getHours();
-        let newhours = (timeouthours + parseInt(data.duration)) % 24;
-        timeout.setHours(newhours);
-        data.timeout = timeout;
-        console.log("timeout is ",timeout," time in is ",data.time);
-        
-        let url = baseBackendUrl+"/api/v1/meeting/form";
-        //WHAT DATA AM I SENDING
-        axios.post(url, data)
-            .then((response)=>{
-                // console.log("response data for /meeting/form ", response.data);
-                // return response;
-                if(response.data.success == true){
-                    // console.log("request submitted successfully enqueuesnackbar");
-                    enqueueSnackbar("Request submitted successfully.", {variant:"success"});
-                }else if(response.data.success == false && response.data.data == "user does not exist"){
-                    // console.log("User not found enqueuesnackbar");
-                    enqueueSnackbar("User not found.", {variant:"warning"});
-                }else{
-                    // console.log("something went wrong enqueuesnackbar");
-                    enqueueSnackbar("Something went wrong at backend.", {variant:"error"});
-                }
-            }).catch((err)=>{
-                console.error(err);
-                enqueueSnackbar("Backend request failed.", {variant:"error"});
-            })
-    }
+// function generateQRCode(data) {
+//     const qrCodeData = data;
 
+//     const qrcode = new QRCode(document.getElementById('qrcode-canvas'), {
+//     text: qrCodeData,
+//     width: 256,
+//     height: 256,
+//     colorDark: '#000000',
+//     colorLight: '#ffffff',
+//     // correctLevel: QRCode.CORRECT_LEVEL.H // Adjust error correction level if needed
+//     });
 
-    // function generateQRCode(data) {
-    //     const qrCodeData = data;
+// }
 
-    //     const qrcode = new QRCode(document.getElementById('qrcode-canvas'), {
-    //     text: qrCodeData,
-    //     width: 256,
-    //     height: 256,
-    //     colorDark: '#000000',
-    //     colorLight: '#ffffff',
-    //     // correctLevel: QRCode.CORRECT_LEVEL.H // Adjust error correction level if needed
-    //     });
-
-    // }
-
-    // const qrImageData = generateQR("hellow world");
-    // generateQR("hellow boid");
-    return(
-        <div>
-            <h1>Meeting Form</h1>
-            <Box style={{display:'flex', justifyContent:'center'}} >
-                <Card elevation={8} sx={{width:"50vw", height:"60vh",display:'flex',justifyContent:'center', flexDirection:'column',alignItems:'center', padding:"50px",gap:"4.5vh"}}>
-                    <TextField required onChange={setData} id="name" label="Person to meet" variant="filled" />
-                    <TextField required onChange={setData} id="reason" type="text" label="Reason" variant="filled" />
-                    {/* <TextField id="email" type="email" onChange={setData} label="Email" variant="filled" /> */}
-                    <Typography>Time</Typography>
-                    <input onChange={setData} type="datetime-local" id="time" name="time" label="inster time" style={{backgroundColor:"white", color:"black"}}/>
-                    {/* <Typography>Duration</Typography> */}
-                    <TextField
-                        id="duration"
-                        onChange={setData}
-                        label="Hours"
-                        type="number"
-                        inputProps={{ min: 1, max: 8 }} 
-                        InputLabelProps={{ shrink: true }} 
-                        />
-                    <Button size="large" id="sub" variant="contained" onClick={()=>{submitForm(data)}} >Submit</Button>
+// const qrImageData = generateQR("hellow world");
+// generateQR("hellow boid");
+return(
+    <div>
+        <h1>Meeting Form</h1>
+        <Box style={{display:'flex', justifyContent:'center'}} >
+            <Card elevation={8} sx={{width:"50vw", height:"60vh",display:'flex',justifyContent:'center', flexDirection:'column',alignItems:'center', padding:"50px",gap:"4.5vh"}}>
+                <TextField required onChange={setData} id="name" label="Person to meet" variant="filled" />
+                <TextField required onChange={setData} id="reason" type="text" label="Reason" variant="filled" />
+                {/* <TextField id="email" type="email" onChange={setData} label="Email" variant="filled" /> */}
+                <Typography>Time</Typography>
+                <input onChange={setData} type="datetime-local" id="time" name="time" label="inster time" style={{backgroundColor:"white", color:"black"}}/>
+                {/* <Typography>Duration</Typography> */}
+                <TextField
+                    id="duration"
+                    onChange={setData}
+                    label="Hours"
+                    type="number"
+                    inputProps={{ min: 1, max: 8 }} 
+                    InputLabelProps={{ shrink: true }} 
+                    />
+                <Button size="large" id="sub" variant="contained" onClick={()=>{submitForm(data)}} >Submit</Button>
                 </Card>
             </Box>
             {/* PUT THIS IN QRCODE SECTION */}
@@ -773,7 +747,6 @@ const AddEmployeeForm = ({setAddEmployee})=>{
     
     const giveEmployeeQr = ()=>{
         let randomString = generateRandomString(8);
-        // console.log("reciever is ",sender);
         let QrEndTime = new Date();
         QrEndTime.setMonth(QrEndTime.getMonth() + 3);
         let data = {sender:formData.username, receiver:"Admin", qrdata:randomString, status:"Out",time:new Date(),timeout:QrEndTime};
@@ -792,12 +765,12 @@ const AddEmployeeForm = ({setAddEmployee})=>{
     }
     const signUpData = (data)=>{
         if(data.username === "" || data.password === "" || data.confirmPassword === "" || data.email === ""){
-            console.log("username ",data.username);
-            console.log("password ", data.password);
-            console.log("confirmPassword ", data.confirmPassword);
-            console.log("email ", data.email);
-            console.log("type ", data.type);
-            console.log("some fields are empty snackbar");
+            // console.log("username ",data.username);
+            // console.log("password ", data.password);
+            // console.log("confirmPassword ", data.confirmPassword);
+            // console.log("email ", data.email);
+            // console.log("type ", data.type);
+            // console.log("some fields are empty snackbar");
             enqueueSnackbar("All fields should be filled.", {variant:"error"});
             return;
         }
@@ -851,9 +824,6 @@ const AddEmployeeForm = ({setAddEmployee})=>{
                             <TextField required onChange={setData} id="password" type="password" label="Password" variant="filled" />
                             <TextField required onChange={setData} id="confirmPassword" type="password" label="Confirm Password" variant="filled" />
                             <TextField required id="email" type="email" onChange={setData} label="Email" variant="filled" />
-                        {/* <Typography>
-                            Don't have an account:<a href="">Sign Up</a>
-                        </Typography> */}
                         <Button size="large" variant="contained" onClick={()=>{signUpData(formData)}} >Add Employee</Button>
                         <Button size="large" variant="contained" onClick={()=>{cancel()}} >Cancel</Button>
                 </Card>
@@ -864,24 +834,18 @@ const AddEmployeeForm = ({setAddEmployee})=>{
 }
 
 const EmployeeQr = ()=>{
-    let EmployeeName = sender;
+    let EmployeeName = localStorage.getItem("user");
     console.log("employeename is  ",EmployeeName);
     let [DisplayQrData, setDisplayQrData] = useState("");
     let showQr = async (EmployeeName)=>{
-        //make post request to /qrs/get based on entry.sender and sender
         let url = baseBackendUrl+"/api/v1/qrs/getqr";
         let data = {sender:"Admin", receiver:EmployeeName};
-        // console.log("sender is ",entry.reciever);
-        // console.log("receiver is ", sender);
+        console.log("sender is ",data);
+        console.log("url is ", url);
         axios.post(url, data).then((response)=>{
-            // console.log("response data for get qr data ", response.data);
             console.log("response is ",response);
             if(response.data.success){
-                // console.log("qr found");
                 console.log("qr data is ", response.data.result);
-                // console.log("qr data is ", response.data.result[0].data);
-                // let qrImgData = generateQR(response.data.result[0].data);
-                // setQrdata(response.data.data);
                 setQrImgData(response.data.result[0].data);
             }else{
                 console.log("qr not found");
@@ -891,7 +855,6 @@ const EmployeeQr = ()=>{
         })
         let setQrImgData = async (text)=>{
             let qrImgData = await generateQR(text);
-            // console.log("hellow qrImgData is ", qrImgData);
             setDisplayQrData(qrImgData);
         }
     }
@@ -911,15 +874,10 @@ const EmployeeQr = ()=>{
 
 
 const Display = ({user, SelectedFunctionality})=>{
-    // console.log("SelectedFunctionality is ", SelectedFunctionality);
-    // console.log("user is ", user);
     return(
         <div>
-            <h1>Func...</h1>
-            <div style={{display:"flex",justifyContent:"center",width:"100vw"}}>
-                {/* <Inbox user={user}/> */}
-                {/* <ValidateQr/>    */}
-                {/* <MeetingForm/> */}
+            <h1>⬆️⬆️⬆️</h1>
+            <div style={{display:"flex",justifyContent:"center",width:"99vw"}}>
                 {SelectedFunctionality == "Inbox"?<Inbox user={user}/>:null}
                 {SelectedFunctionality == "MeetingForm"?<MeetingForm />:null}
                 {SelectedFunctionality == "QRScanner"?<ValidateQr />:null}
@@ -927,7 +885,6 @@ const Display = ({user, SelectedFunctionality})=>{
                 {SelectedFunctionality == "ManageEmployees"?<ManageEmployees />:null}
                 {SelectedFunctionality == "EmployeeQR"?<EmployeeQr />:null}
             </div>
-            {/* <QRScanner/> */}
         </div>
     )
 }

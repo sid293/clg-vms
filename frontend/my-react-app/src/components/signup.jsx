@@ -11,7 +11,8 @@ import axios from 'axios';
 import Header from './header';
 import Autocomplete from '@mui/material/Autocomplete';
 
-const baseBackendUrl = "https://clg-vms-backend.onrender.com";
+// const baseBackendUrl = "https://clg-vms-backend.onrender.com";
+const baseBackendUrl = import.meta.env.VITE_backend_url;
 
 const Signup = ()=>{
     const {enqueueSnackbar} = useSnackbar();

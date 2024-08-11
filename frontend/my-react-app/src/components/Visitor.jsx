@@ -33,48 +33,49 @@ const Visitor = ({user})=>{
     return(
         <div>
             <Header header={"Visitor"} endButton={"logout"} />
-            <h1>Visitor</h1>
-            <div style={{display:'flex',justifyContent:'center'}}>
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}  sx={{}}>
-                    <Grid item xs={6} md={6}>
+            {/* <h1>Visitor</h1> */}
+            <div style={{display:'flex',justifyContent:'center', height:"90vh", alignItems:"center"}}>
+                {/* <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}  sx={{}}> */}
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }} sx={{ marginTop:"20px",height:"50vh",maxWidth:"90%"}}>
+                    <Grid item xs={6} md={4}>
                         <Link href="#display" onClick={()=>{selectFunc("Inbox")}}>
-                            <Card elevation={7} sx={{height:150, width:'45vw', cursor:'pointer'}}>
+                            <Card elevation={7} sx={{height:150, width:400, cursor:'pointer'}}>
                                 {/* <Typography>Inbox</Typography> */}
                                 <h2>Inbox</h2>
                             </Card>
                         </Link>
                     </Grid>
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={6} md={4}>
                         <Link href="#display">
-                            <Card elevation={7} sx={{height:150, width:'45vw', cursor:'pointer'}}>
+                            <Card elevation={7} sx={{height:150, width:400, cursor:'pointer'}}>
                                 <h2>Func...</h2>
                             </Card>
                         </Link>
                     </Grid>
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={6} md={4}>
                         <Link href="#display" onClick={()=>{selectFunc("MeetingForm")}}>
-                            <Card elevation={7} sx={{height:150, width:'45vw', cursor:'pointer'}}>
+                            <Card elevation={7} sx={{height:150, width:400, cursor:'pointer'}}>
                                 <h2>Send Requests</h2>
                             </Card>
                         </Link>
                     </Grid>
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={6} md={4}>
                         <Link href="#display">
-                            <Card elevation={7} sx={{height:150, width:'45vw', cursor:'pointer'}}>
+                            <Card elevation={7} sx={{height:150, width:400, cursor:'pointer'}}>
                                 <h2>Func...</h2>
                             </Card>
                         </Link>
                     </Grid>
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={6} md={4}>
                         <Link href="#display">
-                            <Card elevation={7} sx={{height:150, width:'45vw', cursor:'pointer'}}>
+                            <Card elevation={7} sx={{height:150, width:400, cursor:'pointer'}}>
                                 <h2>Func...</h2>
                             </Card>
                         </Link>
                     </Grid>
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={6} md={4}>
                         <Link href="#display">
-                            <Card elevation={7} sx={{height:150, width:'45vw', cursor:'pointer'}}>
+                            <Card elevation={7} sx={{height:150, width:400, cursor:'pointer'}}>
                                 <h2>Func...</h2>
                             </Card>
                         </Link>
