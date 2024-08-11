@@ -14,8 +14,9 @@ import axios from 'axios';
 
 // const baseBackendUrl = "https://clg-vms-backend.onrender.com";
 const baseBackendUrl = import.meta.env.VITE_backend_url;
+const backendUrl = process.env.VITE_backend_url;
 console.log("backend url ",baseBackendUrl);
-console.log("backend url ",baseBackendUrl);
+console.log("backend url ",backendUrl);
 
 
 const Login = ({user,handleSetUser})=>{
