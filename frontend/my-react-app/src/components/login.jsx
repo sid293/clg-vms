@@ -59,10 +59,10 @@ const Login = ({user,handleSetUser})=>{
 
     return(
         <div>
-            <Header header="Login" endButton="Sign Up"/>
-            <h1>Login</h1>
-            <div style={{display:'flex', justifyContent:'center'}}>
-                <Card elevation={8} sx={{width:"40vw", height:"50vh",display:'flex',justifyContent:'center', flexDirection:'column',alignItems:'center', padding:"50px",gap:"4.5vh"}}>
+            <Header header={"Login"} endButton={"Sign Up"}/>
+            <div style={{display:'flex', justifyContent:'center',alignItems:"center", height:"88vh"}}>
+                <Card elevation={8} sx={{width:"40vw", height:"60vh",display:'flex',justifyContent:'center', flexDirection:'column',alignItems:'center', padding:"50px",gap:"4.5vh"}}>
+                        <h1 style={{margin:"15px"}}>Login</h1>
                             <TextField onChange={setDetails} id="username" label="Username" variant="filled" />
                             <TextField onChange={setDetails} id="password" type="password" label="Password" variant="filled" />
                         <Typography>

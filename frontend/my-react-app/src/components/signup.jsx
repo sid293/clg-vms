@@ -1,12 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+// import React from 'react';
+// import { Link } from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
-import {useState, useEffect} from 'react';
-import {Button, Card, TextField, Typography} from '@mui/material';
+import {useState} from 'react';
+import {Button, Card, TextField} from '@mui/material';
 // import './signup.css';
 import {useSnackbar} from 'notistack';
-import {Snackbar} from '@mui/material';
-import {useForm} from 'react-hook-form';
+// import {Snackbar} from '@mui/material';
+// import {useForm} from 'react-hook-form';
 import axios from 'axios';
 import Header from './header';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -17,8 +17,8 @@ const baseBackendUrl = import.meta.env.VITE_backend_url;
 const Signup = ()=>{
     const {enqueueSnackbar} = useSnackbar();
     // const {register, handleSubmit, formState: {errors}} = useForm();
-    const [formData,setState] = useState({username:"",password:"",confirmPassword:"",email:"",type:""});
-    const navigate = useNavigate();
+    const [formData,setState] = useState({username:"",password:"",confirmPassword:"",email:"",type:"Visitor"});
+    // const navigate = useNavigate();
     const accountType = [
         { id: 1, label: 'Visitor' },
         { id: 2, label: 'Reception' },
@@ -29,16 +29,16 @@ const Signup = ()=>{
         // console.log("setting data",formData); //formdata giving me undefined.
         setState((prev)=>({...prev,[e.target.id]:e.target.value}));
     };
-    const setDataAutocomplete = (e,newValue)=>{
-        console.log("account type is ",newValue.label);
-        // setState((prev)=>({...prev,[e.target.id]:newvalue.label}));
-        if (newValue) {
-            console.log("setting state of type");
-            setState(prev => ({ ...prev, type: newValue.label }));
-        } else {
-            setState(prev => ({ ...prev, type: "" }));
-        }
-    };
+    // const setDataAutocomplete = (e,newValue)=>{
+    //     console.log("account type is ",newValue.label);
+    //     // setState((prev)=>({...prev,[e.target.id]:newvalue.label}));
+    //     if (newValue) {
+    //         console.log("setting state of type");
+    //         setState(prev => ({ ...prev, type: newValue.label }));
+    //     } else {
+    //         setState(prev => ({ ...prev, type: "" }));
+    //     }
+    // };
     const signUpData = (data)=>{
         // console.log("singup data is ");
         // console.log(data);
@@ -91,15 +91,15 @@ const Signup = ()=>{
     return(
         <div>
             <Header header={"Sign Up "} endButton={"Login"} />
-            <h1 style={{margin:0}}>Signup</h1>
             {/* <Link to="/login">Login</Link> */}
             <div style={{display:'flex', justifyContent:'center'}}>
-                <Card elevation={8} sx={{width:"50vw", height:"60vh",display:'flex',justifyContent:'center', flexDirection:'column',alignItems:'center', padding:"50px",gap:"4.5vh"}}>
+                <Card elevation={8} sx={{margin:"40px", width:"50vw", height:"70vh",display:'flex',justifyContent:'center', flexDirection:'column',alignItems:'center', padding:"50px",gap:"4.5vh"}}>
+                            <h1 style={{margin:"0px"}}>Signup</h1>
                             <TextField required onChange={setData} id="username" label="Username" variant="filled" />
                             <TextField required onChange={setData} id="password" type="password" label="Password" variant="filled" />
                             <TextField required onChange={setData} id="confirmPassword" type="password" label="Confirm Password" variant="filled" />
                             <TextField required id="email" type="email" onChange={setData} label="Email" variant="filled" />
-                            <Autocomplete
+                            {/* <Autocomplete
                                 required
                                 onChange={setDataAutocomplete}
                                 disablePortal
@@ -107,7 +107,7 @@ const Signup = ()=>{
                                 options={accountType}
                                 isOptionEqualToValue={(option, value) => option.id === value.id}
                                 sx={{ width: 200 }}
-                                renderInput={(params) => <TextField {...params} label="Account type" />}/>
+                                renderInput={(params) => <TextField {...params} label="Account type" />}/> */}
                         {/* <Typography>
                             Don't have an account:<a href="">Sign Up</a>
                         </Typography> */}

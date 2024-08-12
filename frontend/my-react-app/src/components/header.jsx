@@ -1,28 +1,30 @@
-import React,{useEffect,useState} from 'react';
+// import React,{useEffect,useState} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 // import { useHistory } from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
 import './header.css';
 
 // const history = useHistory();
-let navigate = (to)=>{
-    if(to == "Sign Up"){
-        // history.push("/signup");
-        console.log("navigate to signup");
-        // naviagte.push("/signup");
-        // naviagte("/signup");
-    }else if(to == "Login"){
-        // history.push("/login");
-        console.log("navigate to login");
-        // naviagte.push("/login");
-        // naviagte("/login");
-    }
-    // history.push(to);
-}
+// let navigate = (to)=>{
+//     if(to == "Sign Up"){
+//         // history.push("/signup");
+//         console.log("navigate to signup");
+//         // naviagte.push("/signup");
+//         // naviagte("/signup");
+//     }else if(to == "Login"){
+//         // history.push("/login");
+//         console.log("navigate to login");
+//         // naviagte.push("/login");
+//         // naviagte("/login");
+//     }
+//     // history.push(to);
+// }
 
-const Header = ({header,endButton})=>{
+
+const Header = ({header, endButton})=>{
 
     const navigate = useNavigate();
 
@@ -43,7 +45,7 @@ const Header = ({header,endButton})=>{
         <div>
             <Box sx={{boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'}} display="flex" justifyContent="space-between">
                 <Box sx={{boxShadow:"0"}} className="header">
-                    <Typography variant="h3" color="inherit" component="div">
+                    <Typography variant="h3" color="inherit" component="div" fontSize={"2rem"}>
                         <b>{header}:</b> {localStorage.getItem("user")}
                     </Typography>
                 </Box>

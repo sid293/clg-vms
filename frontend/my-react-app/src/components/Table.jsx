@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
-import {TextField, Button} from '@mui/material';
+import {Button} from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -25,16 +25,16 @@ import { visuallyHidden } from '@mui/utils';
 // import { head } from '../../../../backend/routes/auth';
 // import { head } from '../../../../backend/routes/auth';
 
-function createData(id, name, calories, fat, carbs, protein) {
-  return {
-    id,
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-  };
-}
+// function createData(id, name, calories, fat, carbs, protein) {
+//   return {
+//     id,
+//     name,
+//     calories,
+//     fat,
+//     carbs,
+//     protein,
+//   };
+// }
 
 // const rows = [
 //   createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
@@ -119,8 +119,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const {headCellsar, qrsCell, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
+  const {headCellsar, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -184,14 +183,15 @@ function EnhancedTableHead(props) {
   );
 }
 
-EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
+// EnhancedTableHead.propTypes = {
+//   headCellsar: PropTypes.string,
+//   numSelected: PropTypes.number.isRequired,
+//   onRequestSort: PropTypes.func.isRequired,
+//   onSelectAllClick: PropTypes.func.isRequired,
+//   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+//   orderBy: PropTypes.string.isRequired,
+//   rowCount: PropTypes.number.isRequired,
+// };
 
 function EnhancedTableToolbar(props) {
   const { numSelected } = props;
@@ -244,11 +244,18 @@ function EnhancedTableToolbar(props) {
   );
 }
 
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
+// EnhancedTableToolbar.propTypes = {
+//   numSelected: PropTypes.number.isRequired,
+// };
 
-export default function EnhancedTable({arrayData,changeRequestStatus,userType,update, showQr}) {
+// EnhancedTable.propTypes = {
+//   arrayData: PropTypes.array.isRequired,
+//   changeRequestStatus: PropTypes.func.isRequired,
+//   userType: PropTypes.string.isRequired,
+//   showQr: PropTypes.bool.isRequired,
+// };
+
+export default function EnhancedTable({arrayData,changeRequestStatus,userType,showQr}) {
     // console.log("usertype ",userType);
   const [rows, setRows] = React.useState([]);
   const [order, setOrder] = React.useState('asc');
@@ -380,7 +387,6 @@ export default function EnhancedTable({arrayData,changeRequestStatus,userType,up
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
-              qrsCell={userType}
             />
             <TableBody>
               {visibleRows.map((row, index) => {
