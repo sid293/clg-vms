@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import {Grid,Card,Link} from '@mui/material';
+import {Grid,Card,Link, Typography,Box} from '@mui/material';
 
 const Home = ()=>{
     let navigate = useNavigate();
@@ -28,6 +28,33 @@ const Home = ()=>{
                     </Link>
                 </Grid>
             </Grid>
+            <div style={{
+                display:"flex",
+                justifyContent:"center",
+                alignItems:"center",
+                height:"40vh"
+            }}>
+                <Box sx={{
+                    height:180,
+                    width:400,
+                    border:"3px solid yellow",
+                    borderRadius:"10px",
+                    background:"black",
+                }}>
+                    <Typography sx={{
+                        color:"yellow",
+                    height:180,
+                    width:400,
+                    }}>
+                        Note: Backend may take some time to respond for initial request on login or signup.
+                        <br></br>Accounts to explore. (password is same as username)
+                        employeenine<br/>
+                        visitorfive<br/>
+                        receptionone<br/>
+                        admin
+                    </Typography>
+                </Box>
+            </div>
         </div>
     )
 }
