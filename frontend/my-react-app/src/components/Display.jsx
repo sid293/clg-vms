@@ -56,19 +56,17 @@ function generateRandomString(length) {
 const Inbox = ({user})=>{
     let [qrImageData, setQrdata] = useState("");
     userType = localStorage.getItem("type");
+    sender = localStorage.getItem("user");
     // sender = user;
-    if(!sender){
-        sender = localStorage.getItem("user").username;
-    }
-    // console.log("passed user is ",user);
-    // console.log("localstorage user is ",sender);
+    // if(!sender){
+    // }
     let [arrayData, setData] = useState([]);
     let [update, setUpdate] = useState(false);
     let [DisplayQrData, setDisplayQrData] = useState("");
     useEffect(()=>{
         let url = baseBackendUrl+"/api/v1/users/inbox";
         let data = {user:sender,type:userType};
-        // console.log("asking with data ",data);
+        // console.log("inbox url and data ",url,data);
         axios.post(url,data)
             .then((response)=>{
                 // console.log("response ",response);
@@ -499,7 +497,13 @@ const ValidateQr = ()=>{
                 />
                 {/* <p>{result.text}</p> */}
                 {/* <Box id="validationResult" style={{border:"2px solid blue",height:"10vh",width:"40vw",backgroundColor:resultValidation.color}}>{resultValidation.found}</Box> */}
-                <Box id="validationResult" style={{border:"2px solid blue",height:"10vh",width:"50vw",backgroundColor:"yellow",borderRadius:"10px",fontSize:"5vw",color:"gray"}}>Status</Box>
+                <Box id="validationResult" style={{
+                    border:"2px solid blue",
+                    height:"10vh",width:"50vw",
+                    backgroundColor:"yellow",
+                    borderRadius:"10px",
+                    fontSize:"3vw",
+                    color:"gray"}}>Status</Box>
             </div>
           </div>
         );
