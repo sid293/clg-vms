@@ -13,11 +13,6 @@ import {QrReader} from 'react-qr-reader';
 import { DataGrid } from '@mui/x-data-grid';
 import {TextField, Button} from '@mui/material';
 import EnhancedTable from './Table';
-// import QRCode from 'qrcode.js';
-// import { resolve } from 'path';
-// import {TimePicker, LocalizationProvider} from '@mui/x-date-pickers';
-// import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-// import { Input as BaseInput } from '@mui/base/Input';
 
 // const baseBackendUrl = "https://clg-vms-backend.onrender.com";
 const baseBackendUrl = import.meta.env.VITE_backend_url;
@@ -191,7 +186,13 @@ const Inbox = ({user})=>{
                         </Box>}
             </div> */}
             <div>
-                <EnhancedTable showQr={showQr} arrayData={arrayData} changeRequestStatus={changeRequestStatus} userType={userType} update={update} />
+                {DisplayQrData === "" ?
+                    <EnhancedTable showQr={showQr} arrayData={arrayData} changeRequestStatus={changeRequestStatus} userType={userType} update={update} />
+                    :
+                    <Box sx={{ height: "80vh", width: "80vw" }}>
+                        <Button onClick={() => { setDisplayQrData("") }}>Back</Button>
+                        <img style={{ height: "100%", width: "100%" }} src={DisplayQrData} alt="QRcode" />
+                    </Box>}
             </div>
         </div>
     )
@@ -844,12 +845,12 @@ const EmployeeQr = ()=>{
     let showQr = async (EmployeeName)=>{
         let url = baseBackendUrl+"/api/v1/qrs/getqr";
         let data = {sender:"Admin", receiver:EmployeeName};
-        console.log("sender is ",data);
-        console.log("url is ", url);
+        // console.log("sender is ",data);
+        // console.log("url is ", url);
         axios.post(url, data).then((response)=>{
             console.log("response is ",response);
             if(response.data.success){
-                console.log("qr data is ", response.data.result);
+                // console.log("qr data is ", response.data.result);
                 setQrImgData(response.data.result[0].data);
             }else{
                 console.log("qr not found");

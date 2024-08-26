@@ -36,21 +36,6 @@ import { visuallyHidden } from '@mui/utils';
 //   };
 // }
 
-// const rows = [
-//   createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
-//   createData(2, 'Donut', 452, 25.0, 51, 4.9),
-//   createData(3, 'Eclair', 262, 16.0, 24, 6.0),
-//   createData(4, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-//   createData(5, 'Gingerbread', 356, 16.0, 49, 3.9),
-//   createData(6, 'Honeycomb', 408, 3.2, 87, 6.5),
-//   createData(7, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-//   createData(8, 'Jelly Bean', 375, 0.0, 94, 0.0),
-//   createData(9, 'KitKat', 518, 26.0, 65, 7.0),
-//   createData(10, 'Lollipop', 392, 0.2, 98, 0.0),
-//   createData(11, 'Marshmallow', 318, 0, 81, 2.0),
-//   createData(12, 'Nougat', 360, 19.0, 9, 37.0),
-//   createData(13, 'Oreo', 437, 18.0, 63, 4.0),
-// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -68,10 +53,6 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
@@ -145,17 +126,6 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
-        </TableCell>
         {headCellsar.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -182,16 +152,6 @@ function EnhancedTableHead(props) {
     </TableHead>
   );
 }
-
-// EnhancedTableHead.propTypes = {
-//   headCellsar: PropTypes.string,
-//   numSelected: PropTypes.number.isRequired,
-//   onRequestSort: PropTypes.func.isRequired,
-//   onSelectAllClick: PropTypes.func.isRequired,
-//   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-//   orderBy: PropTypes.string.isRequired,
-//   rowCount: PropTypes.number.isRequired,
-// };
 
 function EnhancedTableToolbar(props) {
   const { numSelected } = props;
@@ -244,17 +204,6 @@ function EnhancedTableToolbar(props) {
   );
 }
 
-// EnhancedTableToolbar.propTypes = {
-//   numSelected: PropTypes.number.isRequired,
-// };
-
-// EnhancedTable.propTypes = {
-//   arrayData: PropTypes.array.isRequired,
-//   changeRequestStatus: PropTypes.func.isRequired,
-//   userType: PropTypes.string.isRequired,
-//   showQr: PropTypes.bool.isRequired,
-// };
-
 export default function EnhancedTable({arrayData,changeRequestStatus,userType,showQr}) {
     // console.log("usertype ",userType);
   const [rows, setRows] = React.useState([]);
@@ -264,23 +213,6 @@ export default function EnhancedTable({arrayData,changeRequestStatus,userType,sh
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  // if (userType === "Visitor" && headCells[headCells.length - 1].id !== "qr") {
-  //   console.log("if condition accessed");
-  //   headCells.push({
-  //     id: 'qr',
-  //     numeric: false,
-  //     disablePadding: false,
-  //     label: 'qrs',
-  //   })
-  //   headCells[0].label = "To";
-  // }
-  // else {
-  //   if (headCells[headCells.length - 1].id === "qr") {
-  //     headCells.splice(-1, 1);
-  //   }
-  //   headCells[0].label = "Sender";
-  // }
 
   React.useEffect(()=>{
     setRows(arrayData);
@@ -367,7 +299,6 @@ export default function EnhancedTable({arrayData,changeRequestStatus,userType,sh
     }
     headCellscl[0].label = "Sender";
   }
-  // console.log("headcells cls is ",headCellscl);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -396,31 +327,13 @@ export default function EnhancedTable({arrayData,changeRequestStatus,userType,sh
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.id)}
+                    // onClick={(event) => handleClick(event, row.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={row.id}
-                    selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
-                    {/* <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                    >
-                      {row.name}
-                    </TableCell> */}
                     <TableCell align="center">{userType==="Employee"?row.sender:row.reciever}</TableCell>
                     <TableCell align="center">{row.email}</TableCell>
                     <TableCell align="left">{row.reason}</TableCell>
@@ -433,7 +346,9 @@ export default function EnhancedTable({arrayData,changeRequestStatus,userType,sh
                         }
                     </TableCell>
                     {userType === "Visitor" && 
-                        <TableCell align="left">{row.status=="accepted"?<Button onClick={()=>{showQr(row)}}>show</Button>:null}</TableCell>
+                      <TableCell align="left">{row.status == "accepted" ?
+                        <Button onClick={() => { showQr(row) }}>show</Button> : null}
+                      </TableCell>
                     }
                     {/* {userType == "Visitor"?<td>{row.status=="accepted"?<Button onClick={()=>{showQr(row)}}>show</Button>:null}</td>:null} */}
                     </TableRow>
