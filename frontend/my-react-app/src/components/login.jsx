@@ -36,7 +36,6 @@ const Login = ({user,handleSetUser})=>{
             if(response.data.success){
                 // console.log("login success snackbar");
                 enqueueSnackbar("Login Successful.", {variant:"success"});
-                // console.log("user data recieved ", response.data);
                 let token = response.data.token;
                 let type = response.data.type;
                 let userData = response.data.user;

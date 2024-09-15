@@ -5,22 +5,42 @@ function findPath(graph, source, needle) {
     // needle: The destination node
     // Return the path as an array of nodes
     let q = [graph[source]];
-    let seen = [true];
-    let prev = [-1];
+    // let seen = [false];
+    let seen = {
+        "A": false,
+        "B": false,
+        "C": false,
+        "D": false,
+        "E": false,
+    };
+    seen[source] = true;
+    let prev = [source];
     do {
         let curr = q.shift();
-        for (let i in graph[curr]) {
-            if(!graph[i]){
-                continue;
-            }
-            if(!graph[i].length){
-                continue;
-            }
-            q.push(i);
+        if (!curr.length) {
+            continue;
         }
-        console.log(q);
-
+        for (let i in curr) {
+            console.log("curr ", curr[i]);
+            if (curr[i].node === needle) {
+                prev.push(curr[i].node);
+                // prev.push('e');
+                break;
+            }
+            if (seen[curr[i].node]) {
+                continue;
+            }
+            seen[curr[i].node] = true;
+            prev.push(curr[i].node);
+            console.log("pushing in q ", curr[i]);
+            q.push(graph[curr[i].node]);
+        }
+        // console.log("prev last ",prev[prev.length-1]);
+        if(prev[prev.length-1]===needle){
+            break;
+        }
     } while (q.length);
+    console.log("prev ", prev);
 }
 
 // Example graph
