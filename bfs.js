@@ -35,7 +35,6 @@ function findPath(graph, source, needle) {
             console.log("pushing in q ", curr[i]);
             q.push(graph[curr[i].node]);
         }
-        // console.log("prev last ",prev[prev.length-1]);
         if(prev[prev.length-1]===needle){
             break;
         }

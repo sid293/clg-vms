@@ -1,9 +1,6 @@
-// import * as url from 'url';
 import React from 'react';
 import axios from 'axios';
 import { useState } from 'react';
-// import EnhancedTable from 'EnhancedTable.jsx';
-// import EnhancedTable from './Table';
 import { useEffect } from 'react';
 import {Box,Card } from '@mui/material';
 import {Typography} from '@mui/material';
@@ -14,24 +11,18 @@ import { DataGrid } from '@mui/x-data-grid';
 import {TextField, Button} from '@mui/material';
 import EnhancedTable from './Table';
 
-// const baseBackendUrl = "https://clg-vms-backend.onrender.com";
 const baseBackendUrl = import.meta.env.VITE_backend_url;
 let email = localStorage.getItem("email");
 let sender = localStorage.getItem("user");
 let userType = localStorage.getItem("type");
-// console.log("usertype is ",userType);
 
 function generateQR(data){
     return new Promise((resolve,reject)=>{
         let url = baseBackendUrl+"/generate-qr";
-        // let ddata = {data:data};
         let queryParams = {params:{data:data}};
         axios.get(url, queryParams)
             .then((response)=>{
-                // console.log("response data qrgeneration ", response.data);
-                // setQrdata(response.data);
                 resolve(response.data);
-                // return response;
             }).catch((err)=>{
                 console.error(err);
             })
@@ -52,19 +43,13 @@ const Inbox = ({user})=>{
     let [qrImageData, setQrdata] = useState("");
     userType = localStorage.getItem("type");
     sender = localStorage.getItem("user");
-    // sender = user;
-    // if(!sender){
-    // }
-    let [arrayData, setData] = useState([]);
-    let [update, setUpdate] = useState(false);
+    let [arrayData, setData] = useState([]); let [update, setUpdate] = useState(false);
     let [DisplayQrData, setDisplayQrData] = useState("");
     useEffect(()=>{
         let url = baseBackendUrl+"/api/v1/users/inbox";
         let data = {user:sender,type:userType};
-        // console.log("inbox url and data ",url,data);
         axios.post(url,data)
             .then((response)=>{
-                // console.log("response ",response);
                 setData(response.data.data);
                 setUpdate(prev => !prev);
             }).catch((err)=>{
@@ -114,7 +99,6 @@ const Inbox = ({user})=>{
         }else{
 
         }
-        //post request to 
     }
 
     let showQr = async (entry)=>{
@@ -139,52 +123,6 @@ const Inbox = ({user})=>{
     
     return (
         <div>
-            {/* <h2>Inbox</h2> */}
-            {/* <div>
-                {
-                    DisplayQrData == "" ?
-                        <table border={"2px"} aria-label="custom pagination table">
-                            <thead>
-                                {userType == "Visitor" ? <th>To</th> : <th>Sender</th>}
-                                {userType == "Employee" ? <th>Email</th> : null}
-                                <th>Reason</th>
-                                <th>Time</th>
-                                <th>Status/ Response</th>
-                                {userType == "Visitor" ? <th>QRs</th> : null}
-                            </thead>
-                            <tbody>
-                                {arrayData.length > 0 ?
-                                    (arrayData.map((entry, index) => {
-                                        return (
-                                            <tr key={index}>
-                                                {userType == "Visitor" ? <td>{entry.reciever}</td> : <td>{entry.sender}</td>}
-                                                {userType == "Employee" ? <td>{entry.email}</td> : null}
-
-                                                <td>{entry.reason}</td>
-                                                <td>{entry.time}</td>
-                                                {userType == "Employee" ?
-                                                    <td>{entry.status == "pending" ? <div><Button onClick={() => { changeRequestStatus(entry, "accepted") }} size="medium" sx={{ backgroundColor: 'green' }} variant="contained">A</Button><Button onClick={() => { changeRequestStatus(entry, "rejected") }} size="medium" sx={{ backgroundColor: 'red' }} variant="contained">R</Button></div> : entry.status}</td>
-                                                    :
-                                                    <td>{entry.status}</td>
-                                                }
-                                                {userType == "Visitor" ? <td>{entry.status == "accepted" ? <Button onClick={() => { showQr(entry) }}>show</Button> : null}</td> : null}
-                                            </tr>
-                                        )
-                                    })) : (
-                                        <tr>
-                                            <td colSpan="5">No data found</td>
-                                        </tr>
-                                    )
-                                }
-
-                            </tbody>
-                        </table>
-                        :
-                        <Box sx={{ height: "80vh", width: "80vw" }}>
-                            <Button onClick={() => { setDisplayQrData("") }}>Back</Button>
-                            <img style={{ height: "100%", width: "100%" }} src={DisplayQrData} alt="QRcode" />
-                        </Box>}
-            </div> */}
             <div>
                 {DisplayQrData === "" ?
                     <EnhancedTable showQr={showQr} arrayData={arrayData} changeRequestStatus={changeRequestStatus} userType={userType} update={update} />
@@ -237,17 +175,12 @@ let submitForm = (data)=>{
     //WHAT DATA AM I SENDING
     axios.post(url, data)
         .then((response)=>{
-            // console.log("response data for /meeting/form ", response.data);
-            // return response;
             console.log("response is ",response);
             if(response.data.success == true){
-                // console.log("request submitted successfully enqueuesnackbar");
                 enqueueSnackbar("Request submitted successfully.", {variant:"success"});
             }else if(response.data.success == false && response.data.data == "user does not exist"){
-                // console.log("User not found enqueuesnackbar");
                 enqueueSnackbar("User not found.", {variant:"warning"});
             }else{
-                // console.log("something went wrong enqueuesnackbar");
                 enqueueSnackbar("Something went wrong at backend.", {variant:"error"});
             }
         }).catch((err)=>{
@@ -280,10 +213,8 @@ return(
             <Card elevation={8} sx={{width:"50vw", height:"60vh",display:'flex',justifyContent:'center', flexDirection:'column',alignItems:'center', padding:"50px",gap:"4.5vh"}}>
                 <TextField required onChange={setData} id="name" label="Person to meet" variant="filled" />
                 <TextField required onChange={setData} id="reason" type="text" label="Reason" variant="filled" />
-                {/* <TextField id="email" type="email" onChange={setData} label="Email" variant="filled" /> */}
                 <Typography>Time</Typography>
                 <input onChange={setData} type="datetime-local" id="time" name="time" label="inster time" style={{backgroundColor:"white", color:"black"}}/>
-                {/* <Typography>Duration</Typography> */}
                 <TextField
                     id="duration"
                     onChange={setData}
@@ -295,18 +226,12 @@ return(
                 <Button size="large" id="sub" variant="contained" onClick={()=>{submitForm(data)}} >Submit</Button>
                 </Card>
             </Box>
-            {/* PUT THIS IN QRCODE SECTION */}
-            {/* <div id="qrcode-canvas">
-                <img src={qrImageData} alt="QR Code"/>
-            </div> */}
         </div>
     )
 }
 
 const ValidateQr = ()=>{
     const [resultValidation, setResult] = useState({color:"yellow",found:"Valid"});
-    // const [qrtext, setQrtext] = useState("");
-    // const [times, setTimes] = useState({time:"",timeout:""});
     let time;
     let timeout;
     let coolDownTime = 3000;
@@ -339,21 +264,14 @@ const ValidateQr = ()=>{
             let url = baseBackendUrl+"/api/v1/users/getuser";
             let data = {user:reciever};
             axios.post(url,data).then((response)=>{
-                // console.log("response data for getuser ", response.data);
                 if(response.data.success == true){
-                    // console.log("user type is ", response.data.result[0].type);
                     let userType = response.data.result[0].type;
                     if(userType == "Visitor"){
                         if(response.data.result[0].status == "out"){
-                            // console.log("user is visitor, accepted, change state");
-                            // visitorQrCheck();
                             let currentTime = new  Date();
-                            // console.log("comparing times ",currentTime," time: ",time," timeout: ",timeout);
                             if(currentTime < time){
-                                // console.log("Your time has not yet arrived.");
                                 enqueueSnackbar("Your time has not yet arrived yet.", {variant:"warning"});
                             }else if(currentTime > timeout){
-                                // console.log("Your time has expired.");
                                 enqueueSnackbar("Your time has expired.", {variant:"error"});
                             }else{
                                 console.log("Success, switchInOut");
@@ -412,7 +330,6 @@ const ValidateQr = ()=>{
         };
         //todo: turn text into qrdata and check if user is present in db
         let data = {text:text};
-        // if(text.length == 0){return;}
         let url = baseBackendUrl+"/api/v1/qrs/validate";
         console.log("validating user with data ",data.text);
         axios.post(url,data)
@@ -459,10 +376,7 @@ const ValidateQr = ()=>{
     const QRScanner = () => {
         // Function to handle QR code scan
         const handleScan = (data) => {
-            // console.log("handlescan working ",data);
           if (data) {
-            // console.log("qrtextdata is ",data.text);
-            // setQrtext(data.text);
             if(data.text){
                 ValidateUser(data.text);
                 // let reciever = 
