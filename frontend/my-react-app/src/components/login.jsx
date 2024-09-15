@@ -2,9 +2,9 @@ import React,{useState,useEffect} from 'react';
 import Card from '@mui/material/Card';
 import {useSnackbar} from 'notistack';
 import Typography from '@mui/material/Typography';
-import { TextField } from '@mui/material';
+import { TextField} from '@mui/material';
 import CardContent from '@mui/material/CardContent';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 // import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Header from './header';
@@ -65,7 +65,8 @@ const Login = ({user,handleSetUser})=>{
                             <TextField onChange={setDetails} id="username" label="Username" variant="filled" />
                             <TextField onChange={setDetails} id="password" type="password" label="Password" variant="filled" />
                         <Typography>
-                            Don't have an account:<a href="/signup">Sign Up</a>
+                            {/* Don't have an account:<a href="/signup">Sign Up</a> */}
+                            Don't have an account:<Link to="/signup">Sign Up</Link>
                         </Typography>
                         <Button onClick={()=>{loginData(details)}} size="large" variant="contained" >Login</Button>
                 </Card>
