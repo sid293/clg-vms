@@ -470,28 +470,11 @@ const CheckedInUsers = ()=>{
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'reciever', headerName: 'User', width: 130, description:"Hover for more info." },
         { field: 'time', headerName: 'Check In Time', width: 130,
-        // valueFormatter: (params) => {
-        //     const date = params.value;
-        //     // const date = params;
-        //     console.log("params in valueformatter ",params);
-        //     // Customize the formatting here (example: YYYY-MM-DD HH:MM)
-        //     return date.toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-        //   },
         },
         {
           field: 'timeout',
           headerName: 'Check Out Time',
-        //   type: 'number',
-          width: 130,
         },
-        // {
-        //   field: 'status',
-        //   headerName: 'Overtime',
-        // //   description: 'This column has a value getter and is not sortable.',
-        // //   sortable: false,
-        //   width: 130,
-        // //   valueGetter: (value, row) => `${row.time || ''} ${row.timeout || ''}`,
-        // },
     ];
 
 

@@ -44,6 +44,7 @@ const Admin = ()=>{
                         <Link href="#display" onClick={()=>{selectFunc("ManageEmployees")}}>
                             <Card elevation={7} sx={{height:150, width:400, cursor:'pointer'}}>
                                 {/* <Typography>Inbox</Typography> */}
+                                <h2>🧑‍💼</h2>
                                 <h2>Manage Employees</h2>
                             </Card>
                         </Link>

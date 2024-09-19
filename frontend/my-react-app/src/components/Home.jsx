@@ -19,12 +19,18 @@ const Home = ()=>{
             <Grid container columnSpacing={10} sx={{justifyContent:'center',alignItems:'center'}}>
                 <Grid item>
                     <Link onClick={()=>{redirect("login")}}>
-                        <Card elevation={7} sx={{height:150, width:400, cursor:'pointer'}}><h2>Login</h2></Card>
+                        <Card elevation={7} sx={{height:150, width:400, cursor:'pointer'}}>
+                            <h2>🚪</h2>
+                            <h2>Login</h2>
+                        </Card>
                     </Link>
                 </Grid>
                 <Grid  item>
                     <Link onClick={()=>{redirect("signup")}}>
-                        <Card elevation={7} sx={{height:150, width:400, cursor:'pointer'}}><h2>Sign Up</h2></Card>
+                        <Card elevation={7} sx={{height:150, width:400, cursor:'pointer'}}>
+                            <h2>📄</h2>
+                            <h2>Sign Up</h2>
+                        </Card>
                     </Link>
                 </Grid>
             </Grid>
@@ -42,12 +48,11 @@ const Home = ()=>{
                     background:"black",
                 }}>
                     <Typography sx={{
-                        color:"yellow",
+                        color:"green",
                     height:180,
                     width:400,
                     }}>
-                        Note: Backend may take some time to respond for initial request on login or signup.
-                        <br></br>Accounts to explore. (password is same as username)
+                        <br></br>Accounts to explore: (password is same as username)
                         employeenine<br/>
                         visitorfive<br/>
                         receptionone<br/>

@@ -3,6 +3,7 @@ import Card from '@mui/material/Card';
 import {useSnackbar} from 'notistack';
 import Typography from '@mui/material/Typography';
 import { TextField} from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import CardContent from '@mui/material/CardContent';
 import {useNavigate, Link} from 'react-router-dom';
 // import CardActions from '@mui/material/CardActions';
@@ -15,6 +16,7 @@ import axios from 'axios';
 const baseBackendUrl = import.meta.env.VITE_backend_url;
 
 const Login = ({user,handleSetUser})=>{
+    let [loading, setLoading] = useState(false);
     const {enqueueSnackbar} = useSnackbar();
     let navigate = useNavigate();
     
@@ -24,10 +26,12 @@ const Login = ({user,handleSetUser})=>{
     };
 
     let loginData = (data)=>{
+        setLoading(true);
         let url = baseBackendUrl+"/api/v1/login";
         axios.post(url,data).then((response)=>{
             if(response.data.success){
                 enqueueSnackbar("Login Successful.", {variant:"success"});
+                setLoading(false);
                 let token = response.data.token;
                 let type = response.data.type;
                 let userData = response.data.user;
@@ -43,6 +47,7 @@ const Login = ({user,handleSetUser})=>{
             console.log(error);
             console.log("invalid credentials");
             enqueueSnackbar("Invalid Credentials.", {variant:"error"});
+            setLoading(false);
         });
     };
 
@@ -57,7 +62,11 @@ const Login = ({user,handleSetUser})=>{
                         <Typography>
                             Don't have an account:<Link to="/signup">Sign Up</Link>
                         </Typography>
+                        {loading?
+                        <CircularProgress />
+                        :
                         <Button onClick={()=>{loginData(details)}} size="large" variant="contained" >Login</Button>
+                        }
                 </Card>
             </div>
         </div>

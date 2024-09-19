@@ -31,25 +31,20 @@ const Visitor = ({user})=>{
                     <Grid item xs={12} sm={6} md={4} sx={{ heigh: "200px" }}>
                         <Link href="#display" onClick={()=>{selectFunc("Inbox")}}>
                             <Card elevation={7} sx={{height:150, width:"100%", cursor:'pointer'}}>
+                                <h2>📫</h2>
                                 <h2>Inbox</h2>
-                            </Card>
-                        </Link>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} sx={{ heigh: "200px" }}>
-                        <Link href="#display">
-                            <Card elevation={7} sx={{height:150, width:"100%", cursor:'pointer'}}>
-                                <h2>Func...</h2>
                             </Card>
                         </Link>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} sx={{ heigh: "200px" }}>
                         <Link href="#display" onClick={()=>{selectFunc("MeetingForm")}}>
                             <Card elevation={7} sx={{height:150, width:"100%", cursor:'pointer'}}>
+                                <h2>📩</h2>
                                 <h2>Send Requests</h2>
                             </Card>
                         </Link>
                     </Grid>
-                    <Grid item xs={12} sm={6} md={4} sx={{ heigh: "200px" }}>
+                    {/* <Grid item xs={12} sm={6} md={4} sx={{ heigh: "200px" }}>
                         <Link href="#display">
                             <Card elevation={7} sx={{height:150, width:"100%", cursor:'pointer'}}>
                                 <h2>Func...</h2>
@@ -70,6 +65,13 @@ const Visitor = ({user})=>{
                             </Card>
                         </Link>
                     </Grid>
+                    <Grid item xs={12} sm={6} md={4} sx={{ heigh: "200px" }}>
+                        <Link href="#display">
+                            <Card elevation={7} sx={{height:150, width:"100%", cursor:'pointer'}}>
+                                <h2>Func...</h2>
+                            </Card>
+                        </Link>
+                    </Grid> */}
                 </Grid>
             </div>
             {SelectedFunctionality == ""?null:

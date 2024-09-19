@@ -38,12 +38,23 @@ const Reception = ()=>{
     return(
         <div>
             <Header header={"Reception"} endButton={"logout"} />
-            <div style={{display:'flex',justifyContent:'center'}}>
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{}}>
+            <div style={{
+                display:'flex',
+                alignItems:'center',
+                justifyContent:'center'}}>
+                <Grid container 
+                rowSpacing={1} 
+                columnSpacing={{ xs: 1, sm: 2, md: 3 }} 
+                sx={{
+                    // border:"2px solid green",
+                    marginTop:"2px",
+
+                }}>
                     <Grid item xs={6} md={6}>
                         <Link href="#display" onClick={()=>{selectFunc("QRScanner")}}>
                             <Card elevation={7} sx={{height:150, width:400, cursor:'pointer'}}>
                                 {/* <Typography>Inbox</Typography> */}
+                                <h2>✅</h2>
                                 <h2>Validate QR</h2>
                             </Card>
                         </Link>
@@ -51,6 +62,7 @@ const Reception = ()=>{
                     <Grid item xs={6} md={6}>
                         <Link href="#display" onClick={()=>{selectFunc("CheckedInUsers")}}>
                             <Card elevation={7} sx={{height:150, width:400, cursor:'pointer'}}>
+                                <h2>👤</h2>
                                 <h2>Checked-in users.</h2>
                             </Card>
                         </Link>
