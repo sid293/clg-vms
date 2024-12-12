@@ -43,12 +43,6 @@ router.post('/form',(req,res)=>{     //SHOULD HAVE PUT THIS IN REQUESTS
             }else{
                 //todo: send the request to user
                 addRequestInDb();
-                // console.log("addData is ", addedData);
-                // if(addedData){
-                //     res.status(200).json({success: true, data: "request sent"});
-                // }else{
-                //     res.status(200).json({success: false, data: "failed to add data"});
-                // }
             }
         }
     })
